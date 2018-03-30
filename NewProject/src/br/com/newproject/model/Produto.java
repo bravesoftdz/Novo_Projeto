@@ -1,15 +1,21 @@
 package br.com.newproject.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Produto {
 	
+	@Id	@GeneratedValue
 	private Long codigo;
 	private String nome;
 	private String unidade;
-	private Categoria categ;
-	private Tipo tipo;
+	private String categ;
+	private String tipo;
 	private Integer estoqueCritico;
 	
-	public Produto(Long cod, String nome, String und, Categoria categ, Tipo tp, Integer estCrit) {
+	public Produto(Long cod, String nome, String und, String categ, String tp, Integer estCrit) {
 		
 		this.codigo = cod;
 		this.nome = nome;
@@ -46,19 +52,19 @@ public class Produto {
 		this.unidade = unidade;
 	}
 
-	public Categoria getCateg() {
+	public String getCateg() {
 		return categ;
 	}
 
-	public void setCateg(Categoria categ) {
+	public void setCateg(String categ) {
 		this.categ = categ;
 	}
 
-	public Tipo getTipo() {
+	public String getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(Tipo tipo) {
+	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
 

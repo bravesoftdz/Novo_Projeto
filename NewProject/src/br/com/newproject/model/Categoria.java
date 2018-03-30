@@ -1,12 +1,19 @@
 package br.com.newproject.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Categoria {
 	
+	@Id @GeneratedValue
 	private Long codigo;
 	private String nome;
-	private Tipo tipo;
+	private String tipo;
+	//private Tipo tipo;
 	
-	public Categoria(Long cod, String nome, Tipo tipo) {
+	public Categoria(Long cod, String nome, String tipo) {
 		
 		this.codigo = cod;
 		this.nome = nome;
@@ -31,11 +38,11 @@ public class Categoria {
 		this.nome = nome;
 	}
 
-	public Tipo getTipo() {
+	public String getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(Tipo tipo) {
+	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
 

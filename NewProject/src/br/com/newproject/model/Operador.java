@@ -1,18 +1,25 @@
 package br.com.newproject.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Operador {
 
+	@Id @GeneratedValue
+	private Long id;
 	private String nome;
 	private String senha;
 	private String confirm_senha;
-	private GruposPermissoes grupo_perm;
+	//private GruposPermissoes grupo_perm;
 	
-	public Operador(String nome, String senha, String confirm_senha, GruposPermissoes grupo_perm) {
+	public Operador(String nome, String senha, String confirm_senha) {
 		
 		this.nome = nome;
 		this.senha = senha;
 		this.confirm_senha = confirm_senha;
-		this.grupo_perm = grupo_perm;
+		//this.grupo_perm = grupo_perm;
 	}
 	
 	public Operador() {}
@@ -41,11 +48,12 @@ public class Operador {
 		this.confirm_senha = confirm_senha;
 	}
 
+	/*
 	public GruposPermissoes getGrupo_perm() {
 		return grupo_perm;
 	}
 
 	public void setGrupo_perm(GruposPermissoes grupo_perm) {
 		this.grupo_perm = grupo_perm;
-	}
+	}*/
 }

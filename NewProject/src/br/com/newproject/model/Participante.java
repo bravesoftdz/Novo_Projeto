@@ -1,7 +1,13 @@
 package br.com.newproject.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Participante {
 
+	@Id @GeneratedValue
 	private Long codigo;
 	private String nome;
 	private String tipo;
@@ -17,13 +23,13 @@ public class Participante {
 	private String fone;
 	private String email;
 	private String inscr_muni;
-	private String inscr_esta;
+	private String inscr_esta; 
 	
-	public Participante ( Long cod, String nome, String tipo, String razao, String endereco, String complemento, String numero, 
+	public Participante (Long cod, String nome, String tipo, String razao, String endereco, String complemento, String numero, 
 			String bairro, String estado, String cidade, String cep, String cpf_cnpj, String fone, String email, 
 			String inscr_muni, String inscr_esta) {
 		
-		this.codigo = codigo;
+		this.codigo = cod;
 		this.nome = nome;
 		this.tipo = tipo;
 		this.razao = razao;
@@ -40,6 +46,8 @@ public class Participante {
 		this.inscr_muni = inscr_muni;
 		this.inscr_esta = inscr_esta;
 	}
+	
+	public Participante() {}
 
 	public Long getCodigo() {
 		return codigo;

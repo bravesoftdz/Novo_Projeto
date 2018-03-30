@@ -10,8 +10,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import javax.swing.Box;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -22,11 +20,15 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
+import br.com.newproject.connection.Conexao;
+import br.com.newproject.telas.cadastros.Cadastro_Categoria;
+import br.com.newproject.telas.cadastros.Cadastro_Estabelecimento;
+import br.com.newproject.telas.cadastros.Cadastro_Operador;
+import br.com.newproject.telas.cadastros.Cadastro_Participante;
 import br.com.newproject.telas.cadastros.Cadastro_Produto;
 import br.com.newproject.telas.cadastros.Cadastro_Tipo;
 
@@ -40,8 +42,11 @@ public class Principal extends JFrame {
 				try {
 					Principal frame = new Principal();
 					frame.setVisible(true);
+					frame.setResizable(false);
+					
 				} catch (Exception e) {
-					e.printStackTrace();
+					
+					JOptionPane.showMessageDialog(null, e);
 				}
 			}
 		});
@@ -49,8 +54,18 @@ public class Principal extends JFrame {
 
 	public Principal() {
 		
+		super("X-ESTOQUE");
+
+		ImageIcon iconL = new ImageIcon(Principal.class.getResource("/br/com/newproject/img/logo.png"));
+		Image imaL = iconL.getImage();
+		Image imagemL = imaL.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+		
+		setIconImage(imagemL);
+		
+		Conexao.iniciarFabrica();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 880, 620);
+		setBounds(250, 180, 980, 720);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -74,7 +89,6 @@ public class Principal extends JFrame {
             public void mousePressed(MouseEvent e) {
             	
                 Cadastro_Produto frame = new Cadastro_Produto();
-                Principal.this.dispose();
                 frame.setVisible(true);
                 frame.setResizable(false);
             }
@@ -124,7 +138,6 @@ public class Principal extends JFrame {
             public void mousePressed(MouseEvent e) {
             	
                 Cadastro_Tipo frame = new Cadastro_Tipo();
-                Principal.this.dispose();
                 frame.setVisible(true);
                 frame.setResizable(false);
             }
@@ -162,18 +175,198 @@ public class Principal extends JFrame {
 		
 		JMenuItem mntmCategoria = new JMenuItem("Categoria");
 		mntmCategoria.setFont(new Font("Dialog", Font.BOLD, 14));
+		mntmCategoria.addMouseListener(new MouseListener () {
+			
+			@Override
+            public void mouseReleased(MouseEvent e) {
+                // TODO Auto-generated method stub
+                 
+            }
+             
+            @Override
+            public void mousePressed(MouseEvent e) {
+            	
+                Cadastro_Categoria frame = new Cadastro_Categoria();
+                frame.setVisible(true);
+                frame.setResizable(false);
+            }
+             
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // TODO Auto-generated method stub
+                 
+            }
+             
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            	/*JOptionPane.showMessageDialog(null, "Óia!!! Deu certo qué uma beleza");
+            	
+                if(e.getSource() != null)
+                {
+                	 JOptionPane.showMessageDialog(null, "Óia!!! Deu certo qué uma beleza");
+                }*/
+                 
+            }
+             
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	
+            	/*JOptionPane.showMessageDialog(null, "Óia!!! Deu certo qué uma beleza");
+            	
+                if(e.getSource() != null)
+                {
+                	 JOptionPane.showMessageDialog(null, "Óia!!! Deu certo qué uma beleza");
+                }  */
+            }
+		});
 		mnCadastros.add(mntmCategoria);
 		
 		JMenuItem mntmParticipante = new JMenuItem("Participante");
 		mntmParticipante.setFont(new Font("Dialog", Font.BOLD, 14));
+		mntmParticipante.addMouseListener(new MouseListener () {
+			
+			@Override
+            public void mouseReleased(MouseEvent e) {
+                // TODO Auto-generated method stub
+                 
+            }
+             
+            @Override
+            public void mousePressed(MouseEvent e) {
+            	
+                Cadastro_Participante frame = new Cadastro_Participante();
+                frame.setVisible(true);
+                frame.setResizable(false);
+            }
+             
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // TODO Auto-generated method stub
+                 
+            }
+             
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            	/*JOptionPane.showMessageDialog(null, "Óia!!! Deu certo qué uma beleza");
+            	
+                if(e.getSource() != null)
+                {
+                	 JOptionPane.showMessageDialog(null, "Óia!!! Deu certo qué uma beleza");
+                }*/
+                 
+            }
+             
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	
+            	/*JOptionPane.showMessageDialog(null, "Óia!!! Deu certo qué uma beleza");
+            	
+                if(e.getSource() != null)
+                {
+                	 JOptionPane.showMessageDialog(null, "Óia!!! Deu certo qué uma beleza");
+                }  */
+            }
+		});
 		mnCadastros.add(mntmParticipante);
 		
 		JMenuItem mntmOperador = new JMenuItem("Operador");
 		mntmOperador.setFont(new Font("Dialog", Font.BOLD, 14));
+		mntmOperador.addMouseListener(new MouseListener () {
+			
+			@Override
+            public void mouseReleased(MouseEvent e) {
+                // TODO Auto-generated method stub
+                 
+            }
+             
+            @Override
+            public void mousePressed(MouseEvent e) {
+            	
+                Cadastro_Operador frame = new Cadastro_Operador();
+                frame.setVisible(true);
+                frame.setResizable(false);
+            }
+             
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // TODO Auto-generated method stub
+                 
+            }
+             
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            	/*JOptionPane.showMessageDialog(null, "Óia!!! Deu certo qué uma beleza");
+            	
+                if(e.getSource() != null)
+                {
+                	 JOptionPane.showMessageDialog(null, "Óia!!! Deu certo qué uma beleza");
+                }*/
+                 
+            }
+             
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	
+            	/*JOptionPane.showMessageDialog(null, "Óia!!! Deu certo qué uma beleza");
+            	
+                if(e.getSource() != null)
+                {
+                	 JOptionPane.showMessageDialog(null, "Óia!!! Deu certo qué uma beleza");
+                }  */
+            }
+		});
 		mnCadastros.add(mntmOperador);
 		
 		JMenuItem mntmEstabelecimento = new JMenuItem("Estabelecimento");
 		mntmEstabelecimento.setFont(new Font("Dialog", Font.BOLD, 14));
+		mntmEstabelecimento.addMouseListener(new MouseListener () {
+			
+			@Override
+            public void mouseReleased(MouseEvent e) {
+                // TODO Auto-generated method stub
+                 
+            }
+             
+            @Override
+            public void mousePressed(MouseEvent e) {
+            	
+                Cadastro_Estabelecimento frame = new Cadastro_Estabelecimento();
+                frame.setVisible(true);
+                frame.setResizable(false);
+            }
+             
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // TODO Auto-generated method stub
+                 
+            }
+             
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            	/*JOptionPane.showMessageDialog(null, "Óia!!! Deu certo qué uma beleza");
+            	
+                if(e.getSource() != null)
+                {
+                	 JOptionPane.showMessageDialog(null, "Óia!!! Deu certo qué uma beleza");
+                }*/
+                 
+            }
+             
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	
+            	/*JOptionPane.showMessageDialog(null, "Óia!!! Deu certo qué uma beleza");
+            	
+                if(e.getSource() != null)
+                {
+                	 JOptionPane.showMessageDialog(null, "Óia!!! Deu certo qué uma beleza");
+                }  */
+            }
+		});
 		mnCadastros.add(mntmEstabelecimento);
 		
 		JMenu mnAcoes = new JMenu("A\u00E7\u00F5es");
@@ -286,15 +479,17 @@ public class Principal extends JFrame {
 		setContentPane(contentPane);
 		
 		JLabel lblData = DefaultComponentFactory.getInstance().createLabel(dtf.format(now));
+		lblData.setBounds(807, 612, 135, 21);
 		lblData.setFont(new Font("Dialog", Font.BOLD, 16));
 		
 		JTextArea movProds = new JTextArea();
+		movProds.setBounds(11, 5, 712, 537);
 		movProds.setBackground(new Color(220, 220, 220));
 		movProds.setEditable(false);
 		
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setBackground(new Color(245, 245, 245));
-		lblLogo.setBounds(6, 300, 180, 180);
+		lblLogo.setBounds(785, 421, 173, 179);
 		ImageIcon icon = new ImageIcon(Principal.class.getResource("/br/com/newproject/img/logo.png"));
 		Image ima = icon.getImage();
 		Image imagem = ima.getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_DEFAULT);
@@ -302,42 +497,13 @@ public class Principal extends JFrame {
 		lblLogo.setIcon(ico);
 		
 		JLabel lblXestoque = new JLabel("X-ESTOQUE");
+		lblXestoque.setBounds(6, 577, 363, 65);
 		lblXestoque.setFont(new Font("Bookman Old Style", Font.BOLD, 55));
-		
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(movProds, GroupLayout.PREFERRED_SIZE, 522, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblXestoque, GroupLayout.PREFERRED_SIZE, 363, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addComponent(lblLogo, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
-							.addGap(26))
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addComponent(lblData, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)
-							.addGap(34))))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(movProds, GroupLayout.PREFERRED_SIZE, 430, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 75, Short.MAX_VALUE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblLogo, GroupLayout.PREFERRED_SIZE, 163, GroupLayout.PREFERRED_SIZE)))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblData)
-						.addComponent(lblXestoque, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
-		);
-		contentPane.setLayout(gl_contentPane);
+		contentPane.setLayout(null);
+		contentPane.add(movProds);
+		contentPane.add(lblXestoque);
+		contentPane.add(lblLogo);
+		contentPane.add(lblData);
 		
 		
 	}
