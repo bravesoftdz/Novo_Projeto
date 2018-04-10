@@ -11,7 +11,6 @@ public class Categoria {
 	private Long codigo;
 	private String nome;
 	private String tipo;
-	//private Tipo tipo;
 	
 	public Categoria(Long cod, String nome, String tipo) {
 		

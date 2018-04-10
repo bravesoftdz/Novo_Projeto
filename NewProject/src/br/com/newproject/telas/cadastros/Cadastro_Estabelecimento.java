@@ -57,6 +57,8 @@ public class Cadastro_Estabelecimento extends JFrame {
 		
 		super("Cadastro de Estabelecimento");
 		
+		this.setFocusableWindowState(true);
+		
 		ImageIcon icone = new ImageIcon(Principal.class.getResource("/br/com/newproject/img/logo.png"));
 		Image imagemIcone = icone.getImage();
 		Image imagemPowerIcone = imagemIcone.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
@@ -64,7 +66,7 @@ public class Cadastro_Estabelecimento extends JFrame {
 		setIconImage(imagemPowerIcone);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 980, 620);
+		setBounds(500, 100, 980, 620);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -317,6 +319,8 @@ public class Cadastro_Estabelecimento extends JFrame {
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				Principal frame = new Principal();
+				frame.setVisible(true);
 				Cadastro_Estabelecimento.this.dispose();
 			}
 		});

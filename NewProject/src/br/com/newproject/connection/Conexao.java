@@ -8,7 +8,10 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import br.com.newproject.model.Categoria;
+import br.com.newproject.model.Operador;
 import br.com.newproject.model.Produto;
+import br.com.newproject.model.Tipo;
 
 public class Conexao {
 	
@@ -49,5 +52,32 @@ public class Conexao {
 		
 		List<Produto> produtos = query.getResultList();
         return produtos;
+	}
+	
+	public static List<Tipo> listarTipo() {
+		
+		EntityManager em = emf.createEntityManager();
+		Query query = em.createQuery("FROM Tipo");
+		
+		List<Tipo> tipos = query.getResultList();
+        return tipos;
+	}
+	
+	public static List<Categoria> listarCateg() {
+		
+		EntityManager em = emf.createEntityManager();
+		Query query = em.createQuery("FROM Categoria");
+		
+		List<Categoria> categs = query.getResultList();
+        return categs;
+	}
+	
+	public static List<Operador> listarOpe() {
+		
+		EntityManager em = emf.createEntityManager();
+		Query query = em.createQuery("FROM Operador");
+		
+		List<Operador> opers = query.getResultList();
+        return opers;
 	}
 }

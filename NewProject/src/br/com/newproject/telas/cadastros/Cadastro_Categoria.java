@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -25,13 +27,22 @@ import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 import br.com.newproject.connection.Conexao;
 import br.com.newproject.model.Categoria;
+import br.com.newproject.model.ModeloJTableCategoria;
+import br.com.newproject.model.ModeloJTableProduto;
+import br.com.newproject.model.Produto;
+import br.com.newproject.model.Tipo;
 import br.com.newproject.telas.Principal;
+import javax.swing.JTable;
+import javax.swing.border.TitledBorder;
+import javax.swing.ListSelectionModel;
+import javax.swing.JScrollPane;
 
 public class Cadastro_Categoria extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textCodigo;
 	private JTextField textNome;
+	private JTable tableCategs;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -51,6 +62,14 @@ public class Cadastro_Categoria extends JFrame {
 		
 		super("Cadastro de Categoria");
 		
+		this.setFocusableWindowState(true);
+		
+		List<Tipo> tipos = Conexao.listarTipo();
+		String[] tp_test = new String[tipos.size()];
+		for(int i = 0; i < tipos.size(); i++) {
+			tp_test[i] = tipos.get(i).getNome();
+		}
+		
 		ImageIcon icone = new ImageIcon(Principal.class.getResource("/br/com/newproject/img/logo.png"));
 		Image imagemIcone = icone.getImage();
 		Image imagemPowerIcone = imagemIcone.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
@@ -58,7 +77,7 @@ public class Cadastro_Categoria extends JFrame {
 		setIconImage(imagemPowerIcone);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 980, 500);
+		setBounds(500, 100, 980, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -90,14 +109,9 @@ public class Cadastro_Categoria extends JFrame {
 		textNome.setFont(new Font("Dialog", Font.PLAIN, 16));
 		textNome.setColumns(10);
 		
-		JComboBox comboBox = new JComboBox();
+		JComboBox comboBox = new JComboBox(tp_test);
 		comboBox.setBounds(85, 259, 170, 31);
 		comboBox.setFont(new Font("Dialog", Font.PLAIN, 16));
-		
-		JTextArea CategoriasCadastradas = new JTextArea();
-		CategoriasCadastradas.setBounds(542, 68, 416, 341);
-		CategoriasCadastradas.setBackground(new Color(220, 220, 220));
-		CategoriasCadastradas.setEditable(false);
 		
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setBounds(929, 420, 35, 35);
@@ -130,6 +144,7 @@ public class Cadastro_Categoria extends JFrame {
 				
 				Categoria c = new Categoria();
 				c.setNome(textNome.getText());
+				c.setTipo(comboBox.getSelectedItem().toString());
 				
 				try {
 				Conexao.guardar(c);
@@ -143,6 +158,10 @@ public class Cadastro_Categoria extends JFrame {
 				textNome.setText("");
 				
 				JOptionPane.showMessageDialog(null, "Categoria Cadastrada!");
+				Cadastro_Categoria frame = new Cadastro_Categoria();
+				frame.setVisible(true);
+				frame.setResizable(false);
+				Cadastro_Categoria.this.dispose();
 			}
 		});
 		btnNewButton.setFont(new Font("Dialog", Font.BOLD, 14));
@@ -174,11 +193,49 @@ public class Cadastro_Categoria extends JFrame {
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				Principal frame = new Principal();
+				frame.setVisible(true);
 				Cadastro_Categoria.this.dispose();
 			}
 		});
 		btnNewButton_2.setFont(new Font("Dialog", Font.BOLD, 14));
 		contentPane.setLayout(null);
+		
+		tableCategs = new JTable();
+		tableCategs.setFont(new Font("Dialog", Font.BOLD, 12));
+		tableCategs.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableCategs.setShowVerticalLines(true);
+		tableCategs.setShowHorizontalLines(true);
+		tableCategs.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		tableCategs.setBounds(542, 74, 416, 341);
+		
+		List<Categoria> categs = Conexao.listarCateg();
+		
+		ArrayList dados = new ArrayList();
+		
+		for(int i = 0; i < categs.size(); i++) {
+			
+			Categoria categ = new Categoria();
+			categ.setCodigo(categs.get(i).getCodigo());
+			categ.setNome(categs.get(i).getNome());
+			categ.setTipo(categs.get(i).getTipo());
+			dados.add(categ);
+		}
+		
+		ModeloJTableCategoria modelo = new ModeloJTableCategoria(dados);
+		
+		tableCategs.setModel(modelo);
+		tableCategs.getColumnModel().getColumn(0).setPreferredWidth(30);
+		tableCategs.getColumnModel().getColumn(0).setResizable(false);
+		tableCategs.getColumnModel().getColumn(1).setPreferredWidth(130);
+		tableCategs.getColumnModel().getColumn(1).setResizable(false);
+		tableCategs.getColumnModel().getColumn(2).setPreferredWidth(130);
+		tableCategs.getColumnModel().getColumn(2).setResizable(false);
+		
+		JScrollPane scrollPane = new JScrollPane(tableCategs);
+		scrollPane.setBounds(542, 74, 416, 341);
+		contentPane.add(scrollPane);
+		//contentPane.add(tableCategs);
 		contentPane.add(lblCadastroDeCategoria);
 		contentPane.add(lblNome);
 		contentPane.add(lblTipo);
@@ -187,11 +244,29 @@ public class Cadastro_Categoria extends JFrame {
 		contentPane.add(comboBox);
 		contentPane.add(textNome);
 		contentPane.add(lblCategoriasCadastradas);
-		contentPane.add(CategoriasCadastradas);
 		contentPane.add(btnNewButton);
 		contentPane.add(btnNewButton_1);
 		contentPane.add(btnNewButton_2);
 		contentPane.add(lblHora);
 		contentPane.add(lblLogo);
+		
+		ImageIcon iconA = new ImageIcon(Principal.class.getResource("/br/com/newproject/img/add.png"));
+		Image imaA = iconA.getImage();
+		Image imagemA = imaA.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+		Icon icoA = new ImageIcon(imagemA);
+		
+		JButton btnAdcTipo = new JButton("Adc. Tipo", icoA);
+		btnAdcTipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Cadastro_Tipo_Aux2 frame = new Cadastro_Tipo_Aux2();
+				frame.setVisible(true);
+				frame.setResizable(false);
+				Cadastro_Categoria.this.dispose();
+			}
+		});
+		btnAdcTipo.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnAdcTipo.setBounds(267, 260, 127, 32);
+		contentPane.add(btnAdcTipo);
 	}
 }

@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -23,14 +25,20 @@ import javax.swing.border.EmptyBorder;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 import br.com.newproject.connection.Conexao;
+import br.com.newproject.model.ModeloJTableTipo;
 import br.com.newproject.model.Tipo;
 import br.com.newproject.telas.Principal;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.TitledBorder;
+import javax.swing.JScrollPane;
 
 public class Cadastro_Tipo extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textCodigo;
 	private JTextField textNome;
+	private JTable tableTipos;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -50,6 +58,8 @@ public class Cadastro_Tipo extends JFrame {
 		
 		super("Cadastro de Tipos");
 		
+		this.setFocusableWindowState(true);
+		
 		ImageIcon icone = new ImageIcon(Principal.class.getResource("/br/com/newproject/img/logo.png"));
 		Image imagemIcone = icone.getImage();
 		Image imagemPowerIcone = imagemIcone.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
@@ -57,7 +67,7 @@ public class Cadastro_Tipo extends JFrame {
 		setIconImage(imagemPowerIcone);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 980, 500);
+		setBounds(500, 100, 980, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -84,11 +94,6 @@ public class Cadastro_Tipo extends JFrame {
 		textNome.setBounds(85, 227, 239, 33);
 		textNome.setFont(new Font("Dialog", Font.PLAIN, 16));
 		textNome.setColumns(10);
-		
-		JTextArea tiposCadastrados = new JTextArea();
-		tiposCadastrados.setBounds(477, 77, 481, 333);
-		tiposCadastrados.setBackground(new Color(220, 220, 220));
-		tiposCadastrados.setEditable(false);
 		
 		JLabel lblTiposCadastrados = new JLabel("Tipos Cadastrados");
 		lblTiposCadastrados.setBounds(477, 43, 162, 24);
@@ -120,6 +125,10 @@ public class Cadastro_Tipo extends JFrame {
 				textNome.setText("");
 				
 				JOptionPane.showMessageDialog(null, "Tipo Cadastrado!");
+				Cadastro_Tipo frame = new Cadastro_Tipo();
+				frame.setVisible(true);
+				frame.setResizable(false);
+				Cadastro_Tipo.this.dispose();
 			}
 		});
 		
@@ -148,7 +157,8 @@ public class Cadastro_Tipo extends JFrame {
 		btnVoltar.setBounds(311, 420, 105, 32);
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				Principal frame = new Principal();
+				frame.setVisible(true);
 				Cadastro_Tipo.this.dispose();
 			}
 		});
@@ -169,6 +179,37 @@ public class Cadastro_Tipo extends JFrame {
 		lblHora.setBounds(819, 428, 100, 18);
 		lblHora.setFont(new Font("Dialog", Font.BOLD, 13));
 		contentPane.setLayout(null);
+		
+		List<Tipo> tipos = Conexao.listarTipo();
+		
+		ArrayList dados = new ArrayList();
+		
+		for(int i = 0; i < tipos.size(); i++) {
+			
+			Tipo tipo = new Tipo();
+			tipo.setCodigo(tipos.get(i).getCodigo());
+			tipo.setNome(tipos.get(i).getNome());
+			dados.add(tipo);
+		}
+		
+		ModeloJTableTipo modelo = new ModeloJTableTipo(dados);
+		
+		tableTipos = new JTable();
+		tableTipos.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		tableTipos.setFont(new Font("Dialog", Font.BOLD, 12));
+		tableTipos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableTipos.setShowVerticalLines(true);
+		tableTipos.setShowHorizontalLines(true);
+		tableTipos.setBounds(477, 79, 481, 337);
+		tableTipos.setModel(modelo);
+		tableTipos.getColumnModel().getColumn(0).setPreferredWidth(30);
+		tableTipos.getColumnModel().getColumn(0).setResizable(false);
+		tableTipos.getColumnModel().getColumn(1).setPreferredWidth(330);
+		tableTipos.getColumnModel().getColumn(1).setResizable(false);
+		JScrollPane scrollPane = new JScrollPane(tableTipos);
+		scrollPane.setBounds(477, 79, 481, 337);
+		contentPane.add(scrollPane);
+		//contentPane.add(tableTipos);
 		contentPane.add(lblNome);
 		contentPane.add(lblCodigo);
 		contentPane.add(textCodigo);
@@ -180,6 +221,6 @@ public class Cadastro_Tipo extends JFrame {
 		contentPane.add(lblHora);
 		contentPane.add(lblLogo);
 		contentPane.add(lblTiposCadastrados);
-		contentPane.add(tiposCadastrados);
+		
 	}
 }

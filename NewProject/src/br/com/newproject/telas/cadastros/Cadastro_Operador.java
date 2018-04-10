@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -23,16 +25,25 @@ import javax.swing.border.EmptyBorder;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 import br.com.newproject.connection.Conexao;
+import br.com.newproject.model.Categoria;
+import br.com.newproject.model.ModeloJTableCategoria;
+import br.com.newproject.model.ModeloJTableOperador;
 import br.com.newproject.model.Operador;
 import br.com.newproject.telas.Principal;
 import java.awt.Color;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.border.TitledBorder;
+import javax.swing.ListSelectionModel;
 
 public class Cadastro_Operador extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textConfSenha;
-	private JTextField textSenha;
 	private JTextField textUsuario;
+	private JPasswordField textSenha;
+	private JPasswordField textConfSenha;
+	private JTable tableOperadores;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -52,6 +63,8 @@ public class Cadastro_Operador extends JFrame {
 		
 		super("Cadastro de Operador");
 		
+		this.setFocusableWindowState(true);
+		
 		ImageIcon icone = new ImageIcon(Principal.class.getResource("/br/com/newproject/img/logo.png"));
 		Image imagemIcone = icone.getImage();
 		Image imagemPowerIcone = imagemIcone.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
@@ -59,7 +72,7 @@ public class Cadastro_Operador extends JFrame {
 		setIconImage(imagemPowerIcone);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 980, 500);
+		setBounds(500, 100, 980, 500);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -100,21 +113,20 @@ public class Cadastro_Operador extends JFrame {
 		chckConfig.setBounds(150, 363, 147, 21);
 		chckConfig.setFont(new Font("Dialog", Font.PLAIN, 16));
 		
-		textConfSenha = new JTextField();
-		textConfSenha.setBounds(150, 215, 225, 33);
-		textConfSenha.setFont(new Font("Dialog", Font.PLAIN, 16));
-		textConfSenha.setColumns(10);
-		
-		textSenha = new JTextField();
-		textSenha.setBounds(150, 164, 225, 33);
-		textSenha.setFont(new Font("Dialog", Font.PLAIN, 16));
-		textSenha.setColumns(10);
-		
 		textUsuario = new JTextField();
 		textUsuario.setBounds(150, 113, 225, 33);
 		textUsuario.setFont(new Font("Dialog", Font.PLAIN, 16));
 		textUsuario.setColumns(10);
 		contentPane.setLayout(null);
+		
+		tableOperadores = new JTable();
+		tableOperadores.setShowVerticalLines(true);
+		tableOperadores.setShowHorizontalLines(true);
+		tableOperadores.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableOperadores.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		tableOperadores.setFont(new Font("Dialog", Font.BOLD, 12));
+		tableOperadores.setBounds(506, 68, 404, 349);
+		
 		contentPane.add(lblCadastroDeOperador);
 		contentPane.add(lblPermisses);
 		contentPane.add(chckCadastro);
@@ -125,15 +137,6 @@ public class Cadastro_Operador extends JFrame {
 		contentPane.add(lblSenha);
 		contentPane.add(lblUsuario);
 		contentPane.add(textUsuario);
-		contentPane.add(textSenha);
-		contentPane.add(textConfSenha);
-		
-		JTextArea textAreaOperadoresCadas = new JTextArea();
-		textAreaOperadoresCadas.setBackground(new Color(220, 220, 220));
-		textAreaOperadoresCadas.setFont(new Font("Dialog", Font.PLAIN, 14));
-		textAreaOperadoresCadas.setBounds(554, 68, 404, 357);
-		textAreaOperadoresCadas.setEditable(false);
-		contentPane.add(textAreaOperadoresCadas);
 		
 		JLabel lblLogo = new JLabel("logo");
 		lblLogo.setBounds(923, 429, 35, 32);
@@ -152,9 +155,9 @@ public class Cadastro_Operador extends JFrame {
 		lblHora.setBounds(821, 437, 104, 16);
 		contentPane.add(lblHora);
 		
-		JLabel lblUsuarioCadastrados = new JLabel("Usuario Cadastrados");
+		JLabel lblUsuarioCadastrados = new JLabel("Operadores Cadastrados");
 		lblUsuarioCadastrados.setFont(new Font("Dialog", Font.BOLD, 18));
-		lblUsuarioCadastrados.setBounds(554, 40, 188, 16);
+		lblUsuarioCadastrados.setBounds(554, 40, 234, 16);
 		contentPane.add(lblUsuarioCadastrados);
 		
 		ImageIcon iconG = new ImageIcon(Principal.class.getResource("/br/com/newproject/img/save.png"));
@@ -164,6 +167,7 @@ public class Cadastro_Operador extends JFrame {
 		
 		JButton btnSalvar = new JButton("Salvar", icoG);
 		btnSalvar.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				
 				Operador ope = new Operador();
@@ -185,6 +189,10 @@ public class Cadastro_Operador extends JFrame {
 				textUsuario.setText("");
 				
 				JOptionPane.showMessageDialog(null, "Operador Cadastrado!");
+				Cadastro_Operador frame = new Cadastro_Operador();
+				frame.setVisible(true);
+				frame.setResizable(false);
+				Cadastro_Operador.this.dispose();
 			}
 		});
 		btnSalvar.setFont(new Font("Dialog", Font.BOLD, 14));
@@ -218,11 +226,44 @@ public class Cadastro_Operador extends JFrame {
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				Principal frame = new Principal();
+				frame.setVisible(true);
 				Cadastro_Operador.this.dispose();
 			}
 		});
 		btnVoltar.setFont(new Font("Dialog", Font.BOLD, 14));
 		btnVoltar.setBounds(346, 423, 105, 32);
 		contentPane.add(btnVoltar);
+		
+		textSenha = new JPasswordField();
+		textSenha.setBounds(150, 166, 225, 33);
+		contentPane.add(textSenha);
+		
+		textConfSenha = new JPasswordField();
+		textConfSenha.setBounds(150, 217, 225, 33);
+		contentPane.add(textConfSenha);
+		
+		List<Operador> opers = Conexao.listarOpe();
+		
+		ArrayList dados = new ArrayList();
+		
+		for(int i = 0; i < opers.size(); i++) {
+			
+			Operador oper = new Operador();
+			oper.setId(opers.get(i).getId());
+			oper.setNome(opers.get(i).getNome());;
+			dados.add(oper);
+		}
+		
+		ModeloJTableOperador modelo = new ModeloJTableOperador(dados);
+		
+		tableOperadores.setModel(modelo);
+		tableOperadores.getColumnModel().getColumn(0).setPreferredWidth(30);
+		tableOperadores.getColumnModel().getColumn(0).setResizable(false);
+		tableOperadores.getColumnModel().getColumn(1).setPreferredWidth(130);
+		tableOperadores.getColumnModel().getColumn(1).setResizable(false);
+		JScrollPane Operadores = new JScrollPane(tableOperadores);
+		Operadores.setBounds(554, 68, 404, 349);
+		contentPane.add(Operadores);
 	}
 }

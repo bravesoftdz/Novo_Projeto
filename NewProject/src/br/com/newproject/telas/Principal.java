@@ -32,9 +32,10 @@ import br.com.newproject.telas.cadastros.Cadastro_Participante;
 import br.com.newproject.telas.cadastros.Cadastro_Produto;
 import br.com.newproject.telas.cadastros.Cadastro_Tipo;
 
-public class Principal extends JFrame {
+public class Principal extends JFrame{
 
 	private JPanel contentPane;
+	private static Principal instancia;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -51,10 +52,15 @@ public class Principal extends JFrame {
 			}
 		});
 	}
+	
+	public static void teste() {
+		instancia.setVisible(true);
+		instancia.setEnabled(true);
+	}
 
 	public Principal() {
 		
-		super("X-ESTOQUE");
+		super("SS-ESTOQUE");
 
 		ImageIcon iconL = new ImageIcon(Principal.class.getResource("/br/com/newproject/img/logo.png"));
 		Image imaL = iconL.getImage();
@@ -65,7 +71,7 @@ public class Principal extends JFrame {
 		Conexao.iniciarFabrica();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(250, 180, 980, 720);
+		setBounds(500, 180, 980, 720);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -91,6 +97,7 @@ public class Principal extends JFrame {
                 Cadastro_Produto frame = new Cadastro_Produto();
                 frame.setVisible(true);
                 frame.setResizable(false);
+                Principal.this.setVisible(false);
             }
              
             @Override
@@ -140,6 +147,7 @@ public class Principal extends JFrame {
                 Cadastro_Tipo frame = new Cadastro_Tipo();
                 frame.setVisible(true);
                 frame.setResizable(false);
+                Principal.this.setVisible(false);
             }
              
             @Override
@@ -189,6 +197,7 @@ public class Principal extends JFrame {
                 Cadastro_Categoria frame = new Cadastro_Categoria();
                 frame.setVisible(true);
                 frame.setResizable(false);
+                Principal.this.setVisible(false);
             }
              
             @Override
@@ -238,6 +247,7 @@ public class Principal extends JFrame {
                 Cadastro_Participante frame = new Cadastro_Participante();
                 frame.setVisible(true);
                 frame.setResizable(false);
+                Principal.this.setVisible(false);
             }
              
             @Override
@@ -287,6 +297,7 @@ public class Principal extends JFrame {
                 Cadastro_Operador frame = new Cadastro_Operador();
                 frame.setVisible(true);
                 frame.setResizable(false);
+                Principal.this.setVisible(false);
             }
              
             @Override
@@ -336,6 +347,7 @@ public class Principal extends JFrame {
                 Cadastro_Estabelecimento frame = new Cadastro_Estabelecimento();
                 frame.setVisible(true);
                 frame.setResizable(false);
+                Principal.this.setVisible(false);
             }
              
             @Override
@@ -496,8 +508,8 @@ public class Principal extends JFrame {
 		Icon ico = new ImageIcon(imagem);
 		lblLogo.setIcon(ico);
 		
-		JLabel lblXestoque = new JLabel("X-ESTOQUE");
-		lblXestoque.setBounds(6, 577, 363, 65);
+		JLabel lblXestoque = new JLabel("SS-ESTOQUE");
+		lblXestoque.setBounds(6, 577, 414, 65);
 		lblXestoque.setFont(new Font("Bookman Old Style", Font.BOLD, 55));
 		contentPane.setLayout(null);
 		contentPane.add(movProds);

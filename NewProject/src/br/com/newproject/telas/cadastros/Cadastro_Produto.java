@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -20,14 +21,28 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 import br.com.newproject.connection.Conexao;
+import br.com.newproject.model.Categoria;
+import br.com.newproject.model.ModeloJTableProduto;
 import br.com.newproject.model.Produto;
+import br.com.newproject.model.Tipo;
 import br.com.newproject.telas.Principal;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.JScrollPane;
 
+@SuppressWarnings({ "serial", "unused" })
 public class Cadastro_Produto extends JFrame {
 
 	private JPanel contentPane;
@@ -35,8 +50,7 @@ public class Cadastro_Produto extends JFrame {
 	private JTextField textNome;
 	private JTextField textUnd;
 	private JTextField textEstCrt;
-	private String[] cat_test = {"","MASSAS","CERVEJAS","PLACAS","LUVAS","JOELHOS"};
-	private String[] tp_test = {"","ALIMENTO","BEBIDA","ELETRONICOS","CONEXOES"};
+	private JTable tableBreveMov;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -52,9 +66,24 @@ public class Cadastro_Produto extends JFrame {
 		});
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
 	public Cadastro_Produto() {
 		
 		super("Cadastro de Produto");
+		
+		//this.setEnabled(true);
+		
+		List<Tipo> tipos = Conexao.listarTipo();
+		String[] tp_test = new String[tipos.size()];
+		for(int i = 0; i < tipos.size(); i++) {
+			tp_test[i] = tipos.get(i).getNome();
+		}
+		
+		List<Categoria> categs = Conexao.listarCateg();
+		String[] cat_test = new String[categs.size()];
+		for(int i = 0; i < categs.size(); i++) {
+			cat_test[i] = categs.get(i).getNome();
+		}
 		
 		ImageIcon icone = new ImageIcon(Principal.class.getResource("/br/com/newproject/img/logo.png"));
 		Image imagemIcone = icone.getImage();
@@ -63,9 +92,8 @@ public class Cadastro_Produto extends JFrame {
 		setIconImage(imagemPowerIcone);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 980, 550);
+		setBounds(500, 100, 980, 550);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
 		JLabel lblNewJgoodiesTitle = DefaultComponentFactory.getInstance().createTitle("Cadastro de Produto");
@@ -127,8 +155,6 @@ public class Cadastro_Produto extends JFrame {
 		comboBox_cat.setFont(new Font("Dialog", Font.PLAIN, 16));
 		comboBox_cat.setEditable(false);
 		
-		//Icon icoG = new ImageIcon(Principal.class.getResource("/br/com/newproject/img/save.png"));
-		
 		ImageIcon iconG = new ImageIcon(Principal.class.getResource("/br/com/newproject/img/save.png"));
 		Image imaG = iconG.getImage();
 		Image imagemG = imaG.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
@@ -166,6 +192,10 @@ public class Cadastro_Produto extends JFrame {
 				comboBox_cat.setSelectedItem(tp_test[0]);
 				
 				JOptionPane.showMessageDialog(null, "Produto Cadastrado!");
+				Cadastro_Produto frame = new Cadastro_Produto();
+				frame.setVisible(true);
+				frame.setResizable(false);
+				Cadastro_Produto.this.dispose();
 			}
 		});
 		btnGravar.setFont(new Font("Dialog", Font.BOLD, 14));
@@ -202,28 +232,11 @@ public class Cadastro_Produto extends JFrame {
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				Principal frame = new Principal();
+				frame.setVisible(true);
                 Cadastro_Produto.this.dispose();
 			}
 		});
-		
-		List<Produto> produtos = Conexao.listarProduto();
-		
-		JTextArea mov_Individual = new JTextArea();
-		mov_Individual.setBounds(561, 66, 397, 406);
-		mov_Individual.setBackground(new Color(220, 220, 220));
-		mov_Individual.setEditable(false);
-		
-		//Produto aux = (Produto) produtos;
-		
-		mov_Individual.setText("Nome: " +"\n");
-		
-		for(int i = 0; i < produtos.size(); i++) {
-			
-			mov_Individual.setText(produtos.get(i).getNome() +"\n");
-	
-		}
-		
-		
 		
 		JLabel lblBreveMovimentao = DefaultComponentFactory.getInstance().createTitle("Breve movimenta\u00E7\u00E3o");
 		lblBreveMovimentao.setBounds(562, 35, 197, 28);
@@ -244,6 +257,50 @@ public class Cadastro_Produto extends JFrame {
 		lblHora.setBounds(818, 474, 104, 33);
 		lblHora.setFont(new Font("Dialog", Font.BOLD, 13));
 		contentPane.setLayout(null);
+		
+		List<Produto> produts = Conexao.listarProduto();
+		
+		ArrayList dados = new ArrayList();
+		
+		for(int i = 0; i < produts.size(); i++) {
+			
+			Produto prod = new Produto();
+			prod.setCodigo(produts.get(i).getCodigo());
+			prod.setNome(produts.get(i).getNome());
+			prod.setTipo(produts.get(i).getTipo());
+			prod.setCateg(produts.get(i).getCateg());
+			dados.add(prod);
+		}
+		
+		ModeloJTableProduto modelo = new ModeloJTableProduto(dados);
+		
+		
+		
+			
+		
+		tableBreveMov = new JTable();
+		//contentPane.add(tableBreveMov);
+		tableBreveMov.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableBreveMov.setShowVerticalLines(true);
+		tableBreveMov.setShowHorizontalLines(true);
+		tableBreveMov.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		tableBreveMov.setToolTipText("");
+		tableBreveMov.setFont(new Font("Dialog", Font.BOLD, 12));
+		
+		tableBreveMov.setModel(modelo);
+		tableBreveMov.getColumnModel().getColumn(0).setPreferredWidth(30);
+		tableBreveMov.getColumnModel().getColumn(0).setResizable(false);
+		tableBreveMov.getColumnModel().getColumn(1).setPreferredWidth(160);
+		tableBreveMov.getColumnModel().getColumn(1).setResizable(false);
+		tableBreveMov.getColumnModel().getColumn(2).setPreferredWidth(60);
+		tableBreveMov.getColumnModel().getColumn(2).setResizable(false);
+		tableBreveMov.getColumnModel().getColumn(3).setPreferredWidth(80);
+		tableBreveMov.getColumnModel().getColumn(3).setResizable(false);
+		tableBreveMov.setBounds(0, 0, 388, 391);
+		JScrollPane scrollPane = new JScrollPane(tableBreveMov);
+		scrollPane.setBounds(562, 71, 388, 391);
+		contentPane.add(scrollPane);
+		//contentPane.add(tableBreveMov);
 		contentPane.add(lblCategoria);
 		contentPane.add(lblNome);
 		contentPane.add(lblTipo);
@@ -260,9 +317,45 @@ public class Cadastro_Produto extends JFrame {
 		contentPane.add(btnLimpar);
 		contentPane.add(btnVoltar);
 		contentPane.add(lblNewJgoodiesTitle);
-		contentPane.add(mov_Individual);
 		contentPane.add(lblHora);
 		contentPane.add(lblLogo);
 		contentPane.add(lblBreveMovimentao);
+		
+		ImageIcon iconA = new ImageIcon(Principal.class.getResource("/br/com/newproject/img/add.png"));
+		Image imaA = iconA.getImage();
+		Image imagemA = imaA.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+		Icon icoA = new ImageIcon(imagemA);
+		
+		JButton btnAdcTipo = new JButton("Adc. Tipo", icoA);
+		btnAdcTipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Cadastro_Tipo_Aux frame = new Cadastro_Tipo_Aux();
+				frame.setVisible(true);
+				frame.setResizable(false);
+				Cadastro_Produto.this.dispose();
+				
+			}
+		});
+		btnAdcTipo.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnAdcTipo.setBounds(318, 294, 136, 32);
+		contentPane.add(btnAdcTipo);
+		
+		ImageIcon iconA2 = new ImageIcon(Principal.class.getResource("/br/com/newproject/img/add.png"));
+		Image imaA2 = iconA2.getImage();
+		Image imagemA2 = imaA2.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
+		Icon icoA2 = new ImageIcon(imagemA2);
+		
+		JButton btnAdcCategoria = new JButton("Adc. Categoria", icoA2);
+		btnAdcCategoria.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Cadastro_Categoria_Aux frame = new Cadastro_Categoria_Aux();
+				frame.setVisible(true);
+				frame.setResizable(false);
+				Cadastro_Produto.this.dispose();
+			}
+		});
+		btnAdcCategoria.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnAdcCategoria.setBounds(309, 337, 154, 32);
+		contentPane.add(btnAdcCategoria);
 	}
 }

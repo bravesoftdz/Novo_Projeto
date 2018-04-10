@@ -65,6 +65,8 @@ public class Cadastro_Participante extends JFrame {
 		
 		super("Cadastro de Participante");
 		
+		this.setFocusableWindowState(true);
+		
 		ImageIcon icone = new ImageIcon(Principal.class.getResource("/br/com/newproject/img/logo.png"));
 		Image imagemIcone = icone.getImage();
 		Image imagemPowerIcone = imagemIcone.getScaledInstance(20, 20, Image.SCALE_DEFAULT);
@@ -72,7 +74,7 @@ public class Cadastro_Participante extends JFrame {
 		setIconImage(imagemPowerIcone);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1020, 620);
+		setBounds(500, 100, 1020, 620);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -255,6 +257,8 @@ public class Cadastro_Participante extends JFrame {
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				Principal frame = new Principal();
+				frame.setVisible(true);
 				Cadastro_Participante.this.dispose();
 			}
 		});
